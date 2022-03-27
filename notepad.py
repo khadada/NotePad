@@ -28,7 +28,7 @@ class NotePad(QWidget):
         new_btn.clicked.connect(self.clear_txt)
         save_btn = QPushButton("Save", self)
         save_btn.move(100, 20)
-        #new_btn.clicked.connect(self.save_txt)
+        save_btn.clicked.connect(self.save_text)
         
         # Create text edit field:
         self.text_field = QTextEdit(self)
@@ -42,6 +42,20 @@ class NotePad(QWidget):
         confirm = QMessageBox.question(self,'Clear Confirm Message.','Are you sure want to clear text',QMessageBox.Yes,QMessageBox.No)
         if confirm == QMessageBox.Yes:
             self.text_field.clear()
+            
+    def save_text(self):
+        """
+        If the save is clicked, display dialog to save the text in the text edit field to a text file.
+        """
+        # Get and Convert value of QTextEdit to plaintext
+        text = self.text_field.toPlainText()
+        # We use spread variables
+        file_name,_ = QFileDialog.getSaveFileName(self,'Save Text',"","All Files (*);;Text Files (*.txt);;Python Script (*.py)")
+        if file_name:
+            with open(file_name,'w',encoding='utf-8') as f:
+                f.write(text)
+                
+            
     
     
 # Execution lines
